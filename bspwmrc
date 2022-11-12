@@ -1,3 +1,5 @@
+# credit: https://codeberg.org/dalz/dotfiles
+
 #! /bin/sh
 
 config_dir="$(dirname `realpath $0`)"
