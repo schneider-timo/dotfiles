@@ -1,0 +1,54 @@
+#! /bin/sh
+
+config_dir="$(dirname `realpath $0`)"
+
+# ┌─────────────┐
+# │CONFIGURATION│
+# └─────────────┘
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc config border_width        2
+bspc config window_gap          8
+
+bspc config split_ratio         0.50
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+
+# load last session FIXME
+[ -e "$BSPWM_STATE" ] && bspc wm -l "$BSPWM_STATE" && rm "$BSPWM_STATE" 
+
+# ┌─────┐
+# │RULES│
+# └─────┘
+
+# fix programs starting in floating mode
+bspc rule -a Zathura state=tiled
+bspc rule -a Emacs state=tiled
+
+# desktop assignement
+
+
+# external rules:
+#  - scratchpad
+#  - weechat
+bspc config external_rules_command "${config_dir}/external_rules"
+
+# ┌────────────────┐
+# │STARTUP PROGRAMS│
+# └────────────────┘
+
+# lock the screen
+slock &
+
+# wallpaper
+feh --no-fehbg --bg-scale ~/pictures/wallpapers/wallpaper
+
+# hotkey daemon
+sxhkd -c ~/.config/sxhkd/sxhkdrc &
+
+# bar
+polybar bar &
+
+# scratchpad/dropdown terminal
+alacritty -t scratchpad -d 0 0 &
